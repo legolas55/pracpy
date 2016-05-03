@@ -3,13 +3,14 @@
 
 def brick_wall (height):
     '''This function will recursively call itself until height reaches 0'''
-    if height is not 0:
-        print(height," bricks")
-        height=height-1
+    while height is not -1 :
+        print "Bricks",height
+        height=height - 1
         return brick_wall(height)
-    else:
-        print('done')
+    return
+    
+print("Hello World")
+brick_wall(10)
 
-print(brick_wall(10))
     
 
