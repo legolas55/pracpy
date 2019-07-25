@@ -4,7 +4,7 @@
 def brick_wall (height):
     '''This function will recursively call itself until height reaches 0'''
     while height is not -1 :
-        print "Bricks",height
+        print ("Bricks",height)
         height=height - 1
         return brick_wall(height)
     return

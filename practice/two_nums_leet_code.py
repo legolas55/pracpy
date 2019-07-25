@@ -42,9 +42,9 @@ class Solution(object):
                 new.pop(index)
                 for n in new:
                     if newtar == n:
-                        print "first index", index
+                        print ("first index", index)
                         pair.append(index)
-                        print "second index", nums.index(n)
+                        print ("second index", nums.index(n))
                         pair.append(nums.index(n))
                         return pair
 
@@ -53,4 +53,4 @@ new=[3,2,4]
 tar=6
 a=Solution()
 
-print a.twoSum(new,tar)
+print (a.twoSum(new,tar))

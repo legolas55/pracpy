@@ -6,12 +6,12 @@ d={'yellow':'15'}
 #ezpz
 
 if 'blue' in d:
-    print d['blue']
+    print (d['blue'])
 else:
-    print 'not found'
+    print ('not found')
 
 #simpler
 # here we use get to search for the key and if not found returns not found
-print d.get('blue ','not found')
+print (d.get('blue ','not found'))
 
-print d.get('yellow','not found')
+print (d.get('yellow','not found'))

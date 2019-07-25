@@ -5,15 +5,15 @@
 d1={}
 d1.setdefault("yellow",[]).append(1)
 
-print d1
+print (d1)
 
 d1.setdefault("yellow",[]).append(1)
 
-print d1
+print (d1)
 
 d1.setdefault("yellow",[]).append(1)
 d1.setdefault("green",[]).append(1)
-print d1
+print (d1)
 
 
 #no duplicates
@@ -28,37 +28,37 @@ d2.setdefault("green",{})[5]=1
 d3=d2.copy()
 d4=d2.copy()
 
-print "the original dictionary", d2
+print ("the original dictionary", d2)
 
 #removing a value associated with a key
 del d2["hello"][6]
 
-print "removing a value of a key", d2
+print ("removing a value of a key", d2)
 
 #removing a key
 
 del d2["hello"]
 
-print "removing a key entirely",d2
+print ("removing a key entirely",d2)
 
 #clearing a dictionary
 
 d2.clear()
 
-print "clearing a dictionary", d2
+print ("clearing a dictionary", d2)
 
-print "d3 looks like this", d3
+print ("d3 looks like this", d3)
 
 # delete a random item
 
 d3.popitem()
-print "pop a random item", d3
+print ("pop a random item", d3)
 
 
 #delete a specific item
 d3.pop("hello")
 
-print "Pop hello from the dictionary",d3
+print ("Pop hello from the dictionary",d3)
 
 
 

@@ -6,16 +6,16 @@ number_of_cats=0
 
 def dealWithCat():
     global number_of_cats
-    print "meow"
+    print ("meow")
     animals.append('cat')
     number_of_cats+=1
 
 def dealWithDog():
-    print "bark"
+    print ("bark")
     animals.append('dog')
 
 def dealWithBear():
-    print "yeah run"
+    print ("yeah run")
     animals.append('bear')
 
 # so lets say you had 3 functions you wanted to call, you can tokenDict the calls
@@ -34,10 +34,10 @@ words=["cat","bear","cat","dog"]
 for word in words:
     functionToCall=tokenDict[word]
     functionToCall()
-    print "hello"
+    print ("hello")
 
 
-print "one liner\n"
+print ("one liner\n")
 
 #one line tokenDict Call
 

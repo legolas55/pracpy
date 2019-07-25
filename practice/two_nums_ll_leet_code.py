@@ -31,4 +31,4 @@ a =Solution()
 n=[2,3,4]
 t=6
 
-print a.twoSum(n,t)
+print (a.twoSum(n,t))
