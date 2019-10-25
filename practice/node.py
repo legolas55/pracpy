@@ -50,28 +50,36 @@ def print_linked_list(LinkedList):
            
 #Delete Use case for testing           
 def delete_middle_node_from_linked_list(LinkedList):
-    sizeoflist= 0
+    #sizeoflist= 0
     middle=LinkedList.head
     
     if (middle==None):
         print("Size of list is {0}. No Middle node to delete".format(sizeoflist))
+    #elif(middle.next_node==None):
+    #    sizeoflist=sizeoflist+1
+    #    print("Size of Linked List is ", sizeoflist) 
+    #    print("Deleting Middle Node which is ", middle.data)
     else:
         one_step=LinkedList.head
         two_step=LinkedList.head
-        while(two_step !=None and two_step.next_node !=None):
+        print("add 1")
+        #sizeoflist=sizeoflist+1
+        while(two_step.next_node !=None and two_step.next_node.next_node !=None):    
             one_step=one_step.get_next()
-            sizeoflist=sizeoflist+1
+            #sizeoflist=sizeoflist+1
+            print("add 1.5")
             #print(one_step.data)
             two_step=two_step.get_next().get_next()
-            sizeoflist=sizeoflist+1
-            #print(two_step.data)
+            #sizeoflist=sizeoflist+1
+            print("add 2")
+                    
         middle=one_step
          
-        print("Size of Linked List is ", sizeoflist) 
+        #print("Size of Linked List is ", sizeoflist) 
         print("Deleting Middle Node which is ", middle.data)
                                      
              
-generated_list=generate_linked_list_append_front(3)
+generated_list=generate_linked_list_append_front(5)
 #print(generated_list) 
 
 print_linked_list(generated_list)
