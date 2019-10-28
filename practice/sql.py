@@ -124,3 +124,21 @@ result = cursor.fetchall()
 for r in result:
     print(r)
 
+
+#Write a query that lists each member name, address, dues and location.
+    
+sql_command=('SELECT Members.FIRST_NAME, Members.LAST_NAME, Members.STREET_ADDRESS, Members.APARTMENT_NUMBER,Members.CITY, Members.STATE, Members.ZIPCODE, Organization.DUES,Organization.LOCATION FROM Members INNER JOIN Organization ON Members.ID=Organization.Member_ID;')
+
+#sql_command=("SELECT members.First_
+cursor.execute(sql_command)
+
+print("fetchall:")
+result = cursor.fetchall() 
+for r in result:
+    print(r)
+
+#Write a SQL Query to pull all members that are over 45
+
+#Write a SQL Query to pull all members that have a dues value of 0.
+
+
