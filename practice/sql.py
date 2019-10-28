@@ -31,13 +31,26 @@ DUES DECIMAL(19,4));"""
 cursor.execute(sql_command)
 
 
-members_data = [ ("William", "Shakespeare", "1000 Innovation Way", "Apt 400","Fake London", "Georgia","33009","123-456-789","105"),]
+members_data = [ ("William", "Shakespeare",
+                  "1000 Innovation Way",
+                  "Apt 400","Fake London",
+                  "Georgia","33009",
+                  "123-456-789","105"),]
                
 for member in members_data:
-    members_format_str = """INSERT INTO members (ID, FIRST_NAME, LAST_NAME, STREET_ADDRESS, APARTMENT_NUMBER, CITY, STATE, ZIPCODE, PHONE_NUMBER, AGE)
-    VALUES (NULL, "{first}", "{last}", "{street_address}", "{apartment_number}", "{city}", "{state}","{zipcode}","{phone_number}","{age}");"""
+    members_format_str =( 'INSERT INTO members(ID, FIRST_NAME,'
+                          'LAST_NAME, STREET_ADDRESS, APARTMENT_NUMBER,'
+                          'CITY, STATE, ZIPCODE, PHONE_NUMBER, AGE)'
+                          'VALUES (NULL, "{first}", "{last}", "{street_address}",'
+                          '"{apartment_number}", "{city}", "{state}","{zipcode}",'
+                          '"{phone_number}","{age}");')
 
-    sql_command = members_format_str.format(first=member[0], last=member[1], street_address=member[2], apartment_number = member[3], city = member[4],state = member[5],zipcode = member[6],phone_number = member[7],age=member[8])
+    sql_command = members_format_str.format(first=member[0], last=member[1],
+                                            street_address = member[2],
+                                            apartment_number = member[3],
+                                            city = member[4],state = member[5],
+                                            zipcode = member[6],phone_number = member[7],
+                                            age=member[8])
     cursor.execute(sql_command)
 
 
