@@ -3,8 +3,10 @@ import sqlite3
 connection = sqlite3.connect("sounds_like_a_gym.db")
 cursor = connection.cursor()
 
+
 cursor.execute("""DROP TABLE Members;""")
 cursor.execute("""DROP TABLE Organization;""")
+
 
 sql_command = """
 CREATE TABLE Members ( 
@@ -31,12 +33,41 @@ DUES DECIMAL(19,4));"""
 
 cursor.execute(sql_command)
 
-
 members_data = [ ("William", "Shakespeare",
                   "1000 Innovation Way",
                   "Apt 400","Fake London",
                   "Georgia","33009",
-                  "123-456-789","105"),]
+                  "123-456-789","105"),
+                  ("John", "Smith",
+                  "123 No Work No Eat Drive",
+                  "Apt 1","Fake Plymouth",
+                  "Massachusetts","01810",
+                  "978-756-2313","40"),
+                 ("Abraham", "Lincoln",
+                  "678 Honest Drive",
+                  "Apt 200","Hodgenville",
+                  "Kentucky","2234",
+                  "456-874-9432","200"),
+                 ("William", "Wallace",
+                  "234 BraveHeart Way",
+                  "Apt 101","Scottsdale",
+                  "Michigan","3406",
+                  "679-223-1458","27"),
+                 ("Amelia", "Earhart",
+                  "556 Atlantic Street",
+                  "Apt 19","Pacific",
+                  "California","",
+                  "123-111-789","213"),
+                 ("Marie", "Curie",
+                  "8901 Chemistry Way",
+                  "Apt 120","Amherst",
+                  "Virginia","12345",
+                  "876-456-789","35"),
+                 ("Boudicca", "",
+                  "1000 Britan Way",
+                  "Apt 101","Rome",
+                  "Georgia","11009",
+                  "111-222-333","22"),]
                
 for member in members_data:
     members_format_str =( 'INSERT INTO members(ID, FIRST_NAME,'
@@ -69,7 +100,7 @@ for member in members_data:
         gym_dues=0
         
     organization_format_str=('INSERT INTO organization(ID, MEMBER_ID,'
-                             'LOCATION, DUES) VALUES (NULL, ""{member_id}",'
+                             'LOCATION, DUES) VALUES (NULL, "{member_id}",'
                              '"{location}", "{dues}");')
     
     sql_command = organization_format_str.format(member_id = members_table_id,
@@ -87,8 +118,9 @@ for r in result:
     print(r)
 
 
-cursor.execute("SELECT * FROM Members") 
-print("\nfetch one:")
-res = cursor.fetchone() 
-print(res)
+cursor.execute("SELECT * FROM Organization") 
+print("fetchall:")
+result = cursor.fetchall() 
+for r in result:
+    print(r)
 
