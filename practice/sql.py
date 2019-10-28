@@ -2,6 +2,7 @@ import sqlite3
 
 connection = sqlite3.connect("sounds_like_a_gym.db")
 cursor = connection.cursor()
+
 cursor.execute("""DROP TABLE Members;""")
 cursor.execute("""DROP TABLE Organization;""")
 
@@ -45,15 +46,40 @@ for member in members_data:
                           '"{apartment_number}", "{city}", "{state}","{zipcode}",'
                           '"{phone_number}","{age}");')
 
-    sql_command = members_format_str.format(first=member[0], last=member[1],
+    sql_command = members_format_str.format(first=member[0],
+                                            last=member[1],
                                             street_address = member[2],
                                             apartment_number = member[3],
-                                            city = member[4],state = member[5],
-                                            zipcode = member[6],phone_number = member[7],
+                                            city = member[4],
+                                            state = member[5],
+                                            zipcode = member[6],
+                                            phone_number = member[7],
                                             age=member[8])
     cursor.execute(sql_command)
 
+    sql_command="SELECT * FROM members ORDER BY ID DESC LIMIT 1"
+    
+    cursor.execute(sql_command)
+    result = cursor.fetchone()
+    members_table_id=result[0]
+    
+    gym_location= "Alpharetta"
+    gym_dues = 30.00 
+    if(result[-1] > 65):
+        gym_dues=0
+        
+    organization_format_str=('INSERT INTO organization(ID, MEMBER_ID,'
+                             'LOCATION, DUES) VALUES (NULL, ""{member_id}",'
+                             '"{location}", "{dues}");')
+    
+    sql_command = organization_format_str.format(member_id = members_table_id,
+                                                 location = gym_location,
+                                                 dues = gym_dues)
 
+    cursor.execute(sql_command)
+
+    
+    
 cursor.execute("SELECT * FROM Members") 
 print("fetchall:")
 result = cursor.fetchall() 
