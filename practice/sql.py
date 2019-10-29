@@ -9,9 +9,9 @@ cursor.execute("""DROP TABLE Organization;""")
 
 
 sql_command = """
-CREATE TABLE Members ( 
-ID INTEGER PRIMARY KEY, 
-FIRST_NAME VARCHAR(30), 
+CREATE TABLE Members (
+ID INTEGER PRIMARY KEY,
+FIRST_NAME VARCHAR(30),
 LAST_NAME VARCHAR(40),
 STREET_ADDRESS VARCHAR(100), 
 APARTMENT_NUMBER VARCHAR(20) DEFAULT NULL,
@@ -95,7 +95,8 @@ for member in members_data:
     members_table_id=result[0]
     
     gym_location= "Alpharetta"
-    gym_dues = 30.00 
+    gym_dues = 30.00
+    
     if(result[-1] > 65):
         gym_dues=0
         
@@ -109,36 +110,55 @@ for member in members_data:
 
     cursor.execute(sql_command)
 
-    
-    
-cursor.execute("SELECT * FROM Members") 
-print("fetchall:")
-result = cursor.fetchall() 
-for r in result:
-    print(r)
+#helper
 
 
-cursor.execute("SELECT * FROM Organization") 
-print("fetchall:")
-result = cursor.fetchall() 
-for r in result:
-    print(r)
+def select_all_from_table(tablename,sql_cursor):
+    sql_command="SELECT * FROM {0}".format(tablename)
+    sql_cursor.execute(sql_command) 
+    #print("fetchall:")
+    all_results = cursor.fetchall() 
+    for result in all_results:
+        print(result)
+
+def run_sql_command_return_all_results(command,sql_cursor):
+    sql_cursor.execute(sql_command) 
+    #print("fetchall:")
+    all_results = cursor.fetchall() 
+    for result in all_results:
+        print(result)
 
 
+#
+select_all_from_table("Members",cursor)
+select_all_from_table("Organization",cursor)
+        
 #Write a query that lists each member name, address, dues and location.
     
-sql_command=('SELECT Members.FIRST_NAME, Members.LAST_NAME, Members.STREET_ADDRESS, Members.APARTMENT_NUMBER,Members.CITY, Members.STATE, Members.ZIPCODE, Organization.DUES,Organization.LOCATION FROM Members INNER JOIN Organization ON Members.ID=Organization.Member_ID;')
+sql_command=('SELECT Members.FIRST_NAME, Members.LAST_NAME, Members.STREET_ADDRESS,'
+             'Members.APARTMENT_NUMBER,Members.CITY, Members.STATE, Members.ZIPCODE,'
+             'Organization.DUES,Organization.LOCATION FROM Members INNER JOIN '
+             'Organization ON Members.ID=Organization.Member_ID;')
 
-#sql_command=("SELECT members.First_
-cursor.execute(sql_command)
-
-print("fetchall:")
-result = cursor.fetchall() 
-for r in result:
-    print(r)
+run_sql_command_return_all_results(sql_command,cursor)
 
 #Write a SQL Query to pull all members that are over 45
 
+sql_command=('SELECT Members.FIRST_NAME,Members.LAST_NAME, Members.AGE FROM Members '
+             'WHERE Members.AGE > 45;')
+
+run_sql_command_return_all_results(sql_command,cursor)
+
 #Write a SQL Query to pull all members that have a dues value of 0.
+sql_command=('SELECT Members.FIRST_NAME,Members.LAST_NAME,Organization.DUES FROM '
+             'Members INNER JOIN Organization ON Members.ID=Organization.Member_ID '
+             'WHERE Organization.DUES =0;')
+
+run_sql_command_return_all_results(sql_command,cursor)
+
+
+
+
+
 
 
