@@ -1,16 +1,45 @@
-"""To Do  
+"""Assume a database with the following structure:
+Members
+
+
+ID	NAME 	ADDRESS	PHONE NUMBER	AGE
+
+Organization
+
+
+ID	MEMBER_ID	LOCATION	DUES
+
+1.     Write a query that lists each member name, address, dues and location.
+2.     Write a SQL Query to pull all members that are over 45
+3.     Write a SQL Query to pull all members that have a dues value of 0.
+
 """
+
+# Python Version 3.7.5
+# Written and Tested In IDLE
+# Pep8 compliance using autopep8 && adapts from Google's python style guide
+# Pylint score of 9.64/10
+# This file is designed to be run as a whole
+
+# Assumptions
+# 1. Two tables: 1 for Members and 1 for Organizations
+# 2. Database queries of a gym membership tracking program
+# 3. Data entered is sanitized before hitting the database
+# Improvement could be made to add sanitization for database
+# attacks on the backend as a precaution.
 
 import sqlite3
 
-#Helper Functions
+# Helper Functions
+
+
 def select_all_from_table(tablename, sql_cursor):
     """ Prints all results from a table named tablename.
         Args: table_name - table name to query (Case sensative)
               sql_cursor - sqlite3 cursor object
         Returns: Doesn't return, but will print all results.
     """
-    
+
     sql = "SELECT * FROM {0}".format(tablename)
     sql_cursor.execute(sql)
     # print("fetchall:")
@@ -18,8 +47,12 @@ def select_all_from_table(tablename, sql_cursor):
     for result in all_results:
         print(result)
 
+
 def run_sql_command_return_all_results(command, sql_cursor):
-    """ Prints all results of 
+    """ Prints all results of a sql query using the curssor object
+        Args: Command- SQL query to use
+              sql_cursor- SQL cursor object
+        Returns: Doesn't return, but will print all results
     """
     sql_cursor.execute(command)
     # print("fetchall:")
@@ -27,37 +60,45 @@ def run_sql_command_return_all_results(command, sql_cursor):
     for result in all_results:
         print(result)
 
+
 def query_if_table_exists(table_name):
     """ Query if a table exsists in the sqlite)master meta data table.
         Args: table_name - table name to query (Case sensative)
         Returns: Length of the list object that contains the tables that matched.
     """
 
-    SQL_COMMAND="SELECT sql FROM sqlite_master WHERE type='table' AND name ='{0}'".format(table_name)
+    SQL_COMMAND = "SELECT sql FROM sqlite_master WHERE type='table' AND name ='{0}'".format(
+        table_name)
     CURSOR.execute(SQL_COMMAND)
     all_results = CURSOR.fetchall()
-    #print(all_results)
-    return(len(all_results))
+    # print(all_results)
+    return len(all_results)
+
+# Database Setup
+
+# Create a database and a connection object
 
 
-#Create a database and a connection object
-    
 CONNECTION = sqlite3.connect("sounds_like_a_gym.db")
 CURSOR = CONNECTION.cursor()
 
 
-#If this file is rerun, the tables will need to be dropped if they exsist since
-#the database exsists in a file and not in memory
+# If this file is rerun, the tables will need to be dropped if they exsist since
+# the database exsists in a file and not in memory
 # Running the database in memory has certain advantanges and disadvantages
+# Decided to use file base approach in case database needed to be exported
 
 if query_if_table_exists("Members"):
-           CURSOR.execute("""DROP TABLE Members;""")
+    CURSOR.execute("""DROP TABLE Members;""")
 
 if query_if_table_exists("Organization"):
-           CURSOR.execute("""DROP TABLE Organization;""")
+    CURSOR.execute("""DROP TABLE Organization;""")
 
-#Functions to create the Members and Organization tables
-           
+# Functions to create the Members and Organization tables
+# Assumes data is checked
+# CHECKS could be implemented  in the tables
+# if there are any hard requirements for data
+
 SQL_COMMAND = """
 CREATE TABLE Members (
 ID INTEGER PRIMARY KEY,
@@ -84,9 +125,8 @@ DUES DECIMAL(19,4));"""
 CURSOR.execute(SQL_COMMAND)
 
 
-
-
-#Sample Data Table used for testing
+# Sample Data Table used for testing
+# The data variance generates test cases
 MEMBERS_DATA = [("William", "Shakespeare",
                  "1000 Innovation Way",
                  "Apt 400", "Fake London",
@@ -123,7 +163,7 @@ MEMBERS_DATA = [("William", "Shakespeare",
                  "Georgia", "11009",
                  "111-222-333", "22"), ]
 
-#Load the sample data into the databse
+# Load the sample data into the databse
 # I pictured this as a gym member who was signing up for a gym at a specific location.
 # The location is in Alpharetta and the dues are 30 if the member is under 65.
 # The dues are setup that way so that there would be members with 0 dues.
@@ -153,7 +193,7 @@ for member in MEMBERS_DATA:
     CURSOR.execute(SQL_COMMAND)
     result_insert = CURSOR.fetchone()
     members_table_id = result_insert[0]
-    
+
     gym_location = "Alpharetta"
     gym_dues = 30.00
 
@@ -169,13 +209,16 @@ for member in MEMBERS_DATA:
                                                  dues=gym_dues)
 
     CURSOR.execute(SQL_COMMAND)
-    
+
 # See if the tables are filled with the correct data from the sample
-# dataset
+# dataset and test the following queries
 select_all_from_table("Members", CURSOR)
+print('\n')
 select_all_from_table("Organization", CURSOR)
+print('\n')
 
 # Write a query that lists each member name, address, dues and location.
+# Should return all members with only the specified columns
 
 SQL_COMMAND = (
     'SELECT Members.FIRST_NAME, Members.LAST_NAME, Members.STREET_ADDRESS,'
@@ -184,19 +227,25 @@ SQL_COMMAND = (
     'Organization ON Members.ID=Organization.Member_ID;')
 
 run_sql_command_return_all_results(SQL_COMMAND, CURSOR)
+print('\n')
 
 # Write a SQL Query to pull all members that are over 45
+# Should return 3 entries
 
 SQL_COMMAND = (
     'SELECT Members.FIRST_NAME,Members.LAST_NAME, Members.AGE FROM Members '
     'WHERE Members.AGE > 45;')
 
 run_sql_command_return_all_results(SQL_COMMAND, CURSOR)
+print('\n')
 
 # Write a SQL Query to pull all members that have a dues value of 0.
+# Should return 3 entries
+
 SQL_COMMAND = (
     'SELECT Members.FIRST_NAME,Members.LAST_NAME,Organization.DUES FROM '
     'Members INNER JOIN Organization ON Members.ID=Organization.Member_ID '
     'WHERE Organization.DUES =0;')
 
 run_sql_command_return_all_results(SQL_COMMAND, CURSOR)
+print('\n')
