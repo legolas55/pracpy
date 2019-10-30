@@ -6,9 +6,25 @@ Find and display the complete array that contains the provided target number.
 """
 
 
-import sys,os
+# Python Version 3.7.5
+# Written and Tested In IDLE
+# Pep8 compliance using autopep8 && adapts from Google's python style guide
+# Pylint score of 9.79/10
+# This file is designed to be run as a whole
 
-# 2D list generation
+# Assumptions
+# 1. Args might not be lists
+
+
+# Data Structures
+# Would improve on data structure choice on the next iteration.
+# Array lists seem to be faster than linked list with Nodes.
+
+
+import sys
+import os
+
+### 2D list generation
 # Different Entries that could break the function
 
 LIST_A = ["hello", 1.5, 5, "world"]
@@ -32,7 +48,7 @@ LIST_MIX_4=[LIST_A, LIST_B, 1,"you"]
 
 LIST_MIX_5=[LIST_E, LIST_E,LIST_E,LIST_E,]
 
-# function to find a interger in a list and display list
+### function to find a interger in a list and display list
 # Function under Test
 
 def find_integer_in_list_of_list(list_to_search, integer):
@@ -47,9 +63,10 @@ def find_integer_in_list_of_list(list_to_search, integer):
     """
 
     if isinstance(integer, int) is False:
-        print("Return code 2: {0} is not an integer. Please choose an integer to look for".format(integer))
+        print("Return code 2: {0} is not an integer. Please choose an integer to look for"
+              .format(integer))
         return 2
-    elif isinstance(list_to_search, list) is False:
+    if isinstance(list_to_search, list) is False:
         print("Return Code 3: That does not appear to be a list. Please choose a list to search")
         return 3
 
@@ -68,24 +85,41 @@ def find_integer_in_list_of_list(list_to_search, integer):
     return False
 
 
-# Unit Tests
+### Unit Tests
 # Should all pass and the goal is to incur no exceptions
 try:
+    #Case decimal instead of integer
     find_integer_in_list_of_list(LIST_ALL, 2.2)
-    find_integer_in_list_of_list(5, 2)
-    find_integer_in_list_of_list(LIST_ALL, 10)
-    find_integer_in_list_of_list(LIST_ALL, 11)
-    find_integer_in_list_of_list(LIST_MIX, 11)
-    find_integer_in_list_of_list(LIST_MIX_2, 11)
-    find_integer_in_list_of_list(LIST_MIX_3, 11)
-    find_integer_in_list_of_list(LIST_MIX_4, 11)
-    find_integer_in_list_of_list(LIST_MIX_5, 11)
-    print("All Tests Passed") 
-except Exception as e:
-    exc_type, exc_obj, exc_tb = sys.exc_info()
-    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-    print(e, exc_type, fname, exc_tb.tb_lineno)
 
+    #Case input non list argument
+    find_integer_in_list_of_list(5, 2)
+
+    #Case integer is not present in any lists
+    find_integer_in_list_of_list(LIST_ALL, 10)
+    
+    #Case success integer is found 
+    find_integer_in_list_of_list(LIST_ALL, 11)
+
+    #Case dictionary instead of list
+    find_integer_in_list_of_list(LIST_MIX, 11)
+
+    #Case string instead of list
+    find_integer_in_list_of_list(LIST_MIX_2, 11)
+
+    #Case Tuple and string instead of list
+    find_integer_in_list_of_list(LIST_MIX_3, 11)
+
+    #Case integer and string instead of list
+    find_integer_in_list_of_list(LIST_MIX_4, 11)
+
+    #Case all empty lists
+    find_integer_in_list_of_list(LIST_MIX_5, 11)
+    
+    print("All Tests Passed") 
+except Exception as error:
+    EXC_TYPE, EXC_OBJ, EXC_TB = sys.exc_info()
+    F_NAME = os.path.split(EXC_TB.tb_frame.f_code.co_filename)[1]
+    print(error, EXC_TYPE, F_NAME, EXC_TB.tb_lineno)
 
 
 
