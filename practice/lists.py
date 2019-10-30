@@ -1,46 +1,93 @@
-"""This
+""" Write a method that answers the following problem:
+Accept as input:
+·       list: an unordered list of arrays each with 4 elements.
+·       target: an integer
+Find and display the complete array that contains the provided target number. 
 """
 
+
+import sys,os
+
 # 2D list generation
+# Different Entries that could break the function
 
 LIST_A = ["hello", 1.5, 5, "world"]
 LIST_B = ["this", "place", "is", 6.7]
 LIST_C = [12, "grand", 8, -1]
-LIST_D = ["great", "scott", 11, "world"]
+LIST_D = ["great", (3,5), 11, "world"]
+LIST_E = []
+
+DICT_A = {"starbucks:coding","walmart:shopping","table:manners","think:tank"}
+TUPLE_A=("hello",2)
 
 LIST_ALL = [LIST_A, LIST_B, LIST_C, LIST_D]
 
+LIST_MIX = [LIST_A, LIST_B, LIST_C,DICT_A]
+
+LIST_MIX_2=[LIST_A, LIST_B, "hello","you"]
+
+LIST_MIX_3=[LIST_A, LIST_B, TUPLE_A,"you"]
+
+LIST_MIX_4=[LIST_A, LIST_B, 1,"you"]
+
+LIST_MIX_5=[LIST_E, LIST_E,LIST_E,LIST_E,]
 
 # function to find a interger in a list and display list
-
+# Function under Test
 
 def find_integer_in_list_of_list(list_to_search, integer):
     """ This function will find an integer in a list of lists and return a list.
         Args: list_to_search - the list of list to search
               integer - the integer to find in the list of list
-        Returns: List that integer was found in.
+        Returns:True -  Prints List that integer was found in.
+                False - Integer was not found
+                2 - Non integer was passed in as an Arg
+                3 - Non list was passed in as an Arg
+                4 - Sub list contains a non list element
     """
 
     if isinstance(integer, int) is False:
-        print(
-            " {0} is not an integer. Please choose an integer to look for".format(integer))
+        print("Return code 2: {0} is not an integer. Please choose an integer to look for".format(integer))
+        return 2
     elif isinstance(list_to_search, list) is False:
-        print(" That does not appear to be a list. Please choose a list to search")
+        print("Return Code 3: That does not appear to be a list. Please choose a list to search")
+        return 3
 
     for lists in list_to_search:
+        if isinstance(lists, list) is False:
+            print("Return Code 4: That does not appear to be a list in the main list")
+            return 4
+    
         for element in lists:
             if element == integer:
-                print("found")
+                print("Sucess, The integer was found in the following list:")
                 print(lists)
                 return True
-
-    print("Integer was not in the list")
+            
+    print("Integer was not found")
     return False
 
 
 # Unit Tests
+# Should all pass and the goal is to incur no exceptions
+try:
+    find_integer_in_list_of_list(LIST_ALL, 2.2)
+    find_integer_in_list_of_list(5, 2)
+    find_integer_in_list_of_list(LIST_ALL, 10)
+    find_integer_in_list_of_list(LIST_ALL, 11)
+    find_integer_in_list_of_list(LIST_MIX, 11)
+    find_integer_in_list_of_list(LIST_MIX_2, 11)
+    find_integer_in_list_of_list(LIST_MIX_3, 11)
+    find_integer_in_list_of_list(LIST_MIX_4, 11)
+    find_integer_in_list_of_list(LIST_MIX_5, 11)
+    print("All Tests Passed") 
+except Exception as e:
+    exc_type, exc_obj, exc_tb = sys.exc_info()
+    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+    print(e, exc_type, fname, exc_tb.tb_lineno)
 
-find_integer_in_list_of_list(LIST_ALL, 2.2)
-find_integer_in_list_of_list(5, 2)
-find_integer_in_list_of_list(LIST_ALL, 10)
-find_integer_in_list_of_list(LIST_ALL, 11)
+
+
+
+
+
