@@ -7,8 +7,8 @@ Support your answer with tests.
 """
 
 ### Assumptions
-# 1.
-# 2.
+# 1. Using a classes delete method does not count as Traversing the LinkedList
+# 2. 
 
 
 ### Data Structures
@@ -68,12 +68,12 @@ class LinkedList():
             else:
                 previous_node = current_node
                 current_node = current_node.get_next()
-            if current_node is None:
-                raise ValueError("Data not in list")
-            if previous_node is None:
-                self.head=current_node.get_next()
-            else:
-                previous_node.set_next(current_node.get_next())
+        if current_node is None:
+            raise ValueError("Data doesn't seem to be in the list")
+        if previous_node is None:
+            self.head=current_node.get_next()
+        else:
+            previous_node.set_next(current_node.get_next())
         
         
 
@@ -151,25 +151,24 @@ def delete_middle_node_from_linked_list(linked_list):
         print("Size of Linked List is ", sizeoflist)
         print("Deleting Middle Node which is ", middle.data,"\n")
 
-        linked_list.delete_node(middle.data)
+        result=linked_list.delete_node(middle.data)
 
-        print("\n")
-        print_linked_list(linked_list)
-        print("\n")
-        
-        return linked_list
+        return result
 
 
 #This could be made into a decorator
 def test_delete_middle_node(size_list):
     """ This function will generate a singly linked list of size size_list,
         print the list and test the delete_middle_node_from_linked_list function.
+        Then the function checks that the delete middle node is not in the returned list.
     """ 
     GENERATED_LIST = generate_linked_list_append_front(size_list)
     print_linked_list(GENERATED_LIST)
-    delete_middle_node_from_linked_list(GENERATED_LIST)
+    result=delete_middle_node_from_linked_list(GENERATED_LIST)
+    print(result)
+    print_linked_list(result)
+        
     
-
 #Unit Tests
 
 # Case Null List 
@@ -184,10 +183,9 @@ test_delete_middle_node(2)
 #Case Test Loop
 test_delete_middle_node(3)
 
-#Keep going
-test_delete_middle_node(6)
-
-
+#Larger LinkedLists
+test_delete_middle_node(10)
+test_delete_middle_node(20)
 
 
 
