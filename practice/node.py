@@ -6,24 +6,26 @@ Assume the list size cannot be known until traversed.
 Support your answer with tests.
 """
 
-#Python Version 3.7.5
-#Written and Tested In IDLE
-#Pep8 compliance using autopep8 && adapts from Google's python style guide
-#Pylint score of 9.90/10
-#This file is designed to be run as a whole
+# Python Version 3.7.5
+# Written and Tested In IDLE
+# Pep8 compliance using autopep8 && adapts from Google's python style guide
+# Pylint score of 9.90/10
+# This file is designed to be run as a whole
 
-### Assumptions
+# Assumptions
 # 1. Using a class's delete method does not count as traversing the LinkedList
 # 2. If a LinkedList has an even number of nodes, delete the left middle node.
 # 3. The Linked list will be populated such that the newest inserted node
 # the head node.
 # 4. If there is only one node, the middle is itself and should be deleted.
 
-### Data Structures
+# Data Structures
 # Would improve on data structure choice on the next iteration.
-# Array lists seem to be faster than linked list with Nodes. 
+# Array lists seem to be faster than linked list with Nodes.
 
-import sys,os
+import sys
+import os
+
 
 class Node():
     """ Node Class
@@ -68,8 +70,8 @@ class LinkedList():
 
     def delete_node(self, data):
         """Deletes a node by looking at self.data value"""
-        current_node=self.head
-        previous_node=None
+        current_node = self.head
+        previous_node = None
         found_node = False
         while current_node and found_node is False:
             if current_node.get_data() == data:
@@ -80,13 +82,12 @@ class LinkedList():
         if current_node is None:
             raise ValueError("Data doesn't seem to be in the list")
         if previous_node is None:
-            self.head=current_node.get_next()
+            self.head = current_node.get_next()
         else:
             previous_node.set_next(current_node.get_next())
-        
-        
 
-### Helper methods for testing
+
+# Helper methods for testing
 
 def generate_linked_list_append_front(size):
     """ This function generates a LinkedList object.
@@ -115,18 +116,20 @@ def print_linked_list(linked_list):
             print(start.data)
         print("End of List")
 
-#This could be made into a decorator
+# This could be made into a decorator
+
+
 def test_delete_middle_node(size_list):
     """ This function will generate a singly linked list of size size_list,
         print the list and test the delete_middle_node_from_linked_list function.
         Then the function checks that the delete middle node is not in the returned list.
-    """ 
+    """
     generated_list = generate_linked_list_append_front(size_list)
     print_linked_list(generated_list)
     delete_middle_node_from_linked_list(generated_list)
-  
 
-### Delete Use case for testing
+
+# Delete Use case for testing
 # FUT- Function Under Test
 def delete_middle_node_from_linked_list(linked_list):
     """This function deletes the middle node from a singley LinkedList.
@@ -134,12 +137,12 @@ def delete_middle_node_from_linked_list(linked_list):
         Returns: Success - LinkedList Object with the middle object deleted
                  False - Empty LinkedList and nothing can be deleted
                  2 - Arg given is not a LinkedList Object
-                
+
     """
     if isinstance(linked_list, LinkedList) is False:
-        print( "Please pass in a LinkedList Object")
+        print("Please pass in a LinkedList Object")
         return 2
-        
+
     sizeoflist = 0
     middle = linked_list.head
 
@@ -150,32 +153,32 @@ def delete_middle_node_from_linked_list(linked_list):
     one_step = linked_list.head
     two_step = linked_list.head
 
-    #Since there is a head node, size must be at least 1
-    sizeoflist=sizeoflist+1
+    # Since there is a head node, size must be at least 1
+    sizeoflist = sizeoflist + 1
     #print("add 1")
-    
-    #The condition is structured like this to avoid a NoneType error for two_step
-    #This could be written as while(true) and except a NoneType error, but not recommended
-    #Look before you leap is better in this situation
+
+    # The condition is structured like this to avoid a NoneType error for two_step
+    # This could be written as while(true) and except a NoneType error, but not recommended
+    # Look before you leap is better in this situation
     while two_step.next_node is not None and two_step.next_node.next_node is not None:
         one_step = one_step.get_next()
         sizeoflist = sizeoflist + 1
         #print("add 1.5")
-        #print(one_step.data)
+        # print(one_step.data)
         two_step = two_step.get_next().get_next()
         sizeoflist = sizeoflist + 1
         #print("add 2")
 
-    #Two_step pointing at a node with a next node but no next next node
-    #Since calculating size of list, need edge case for correct size.
+    # Two_step pointing at a node with a next node but no next next node
+    # Since calculating size of list, need edge case for correct size.
     if two_step.next_node is not None:
-        sizeoflist=sizeoflist+1
+        sizeoflist = sizeoflist + 1
 
-    #This is the middle node
+    # This is the middle node
     middle = one_step
-        
+
     print("Size of Linked List is ", sizeoflist)
-    print("Deleting Middle Node which is ", middle.data,"\n")
+    print("Deleting Middle Node which is ", middle.data, "\n")
 
     linked_list.delete_node(middle.data)
 
@@ -185,49 +188,39 @@ def delete_middle_node_from_linked_list(linked_list):
 
     return linked_list
 
-            
-###Unit Tests
-#The goal is that all exceptions should be handled
-#All cases should pass
+
+# Unit Tests
+# The goal is that all exceptions should be handled
+# All cases should pass
 
 try:
-    # Case Null List 
+    # Case Null List
     test_delete_middle_node(0)
 
-    #Case Only Head Node
+    # Case Only Head Node
     test_delete_middle_node(1)
 
-    #Case Two Nodes not triggering the loop, Test size edge case.
+    # Case Two Nodes not triggering the loop, Test size edge case.
     test_delete_middle_node(2)
 
-    #Case Test Loop
+    # Case Test Loop
     test_delete_middle_node(3)
 
-    #Case Complete Full loop
+    # Case Complete Full loop
     test_delete_middle_node(4)
 
-    #Larger LinkedLists
+    # Larger LinkedLists
     test_delete_middle_node(10)
     test_delete_middle_node(20)
 
-    #Try non LinkedList objects as args 
+    # Try non LinkedList objects as args
     delete_middle_node_from_linked_list(1)
     delete_middle_node_from_linked_list("hello")
-    delete_middle_node_from_linked_list((5,5))
-    delete_middle_node_from_linked_list([1,2,3])
-    
-    
-    print("All Tests Passed") 
+    delete_middle_node_from_linked_list((5, 5))
+    delete_middle_node_from_linked_list([1, 2, 3])
+
+    print("All Tests Passed")
 except Exception as error:
     EXC_TYPE, EXC_OBJ, EXC_TB = sys.exc_info()
     F_NAME = os.path.split(EXC_TB.tb_frame.f_code.co_filename)[1]
     print(error, EXC_TYPE, F_NAME, EXC_TB.tb_lineno)
-
-
-
-
-
-
-
-
-
